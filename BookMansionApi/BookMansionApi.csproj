@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43B6F6D8-CA2A-466E-A01B-563E78C7607A}</ProjectGuid>
+    <OutputType>winmdobj</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BookMansionApi</RootNamespace>
+    <AssemblyName>BookMansionApi</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile32</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Const\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+    <TargetPlatform Include="Windows, Version=8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuildBookMansion.cs" />
+    <Compile Include="Exceptions\BookManExceptionType.cs" />
+    <Compile Include="Exceptions\HttpException.cs" />
+    <Compile Include="MaterialAnalysis\Kindle.cs" />
+    <Compile Include="MaterialAnalysis\Honto.cs" />
+    <Compile Include="MaterialAnalysis\ISearchCompletion.cs" />
+    <Compile Include="Model\Search\BookMansionCompletion.cs" />
+    <Compile Include="Model\Search\KindleSearch.cs" />
+    <Compile Include="Model\Search\SearchBase.cs" />
+    <Compile Include="Model\Search\HontoSearch.cs" />
+    <Compile Include="Model\Http\HttpResponseEntity.cs" />
+    <Compile Include="Model\Http\HttpRequestEntity.cs" />
+    <Compile Include="Settings\DefaultValue.cs" />
+    <Compile Include="Util\GoogleSuggestUtil.cs" />
+    <Compile Include="Util\XmlUtil.cs" />
+    <Compile Include="Util\StringUtil.cs" />
+    <Compile Include="Util\LogUtil.cs" />
+    <Compile Include="Util\JsonUtil.cs" />
+    <Compile Include="Util\HtmlUtil.cs" />
+    <Compile Include="Util\NetworkUtil.cs" />
+    <Compile Include="Util\HttpUtil.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>libs\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="IEHost">
+      <HintPath>..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\IEHost\2.0.0.0__b03f5f7f11d50a3a\IEHost.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>libs\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\v3.5\System.Web.Entity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\BookStore\kindle.png" />
+    <Content Include="Images\BookStore\honto.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,256 @@
+﻿<Page
+    x:Class="BookMansion.BookMansion"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BookMansion"
+    xmlns:converter="using:BookMansion.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converter:StringFormatConverter x:Key="StringFormatConverter" />
+
+        <Style TargetType="HyperlinkButton" x:Key="HyperlinkButtonCustom">
+            <Setter Property="Foreground" Value="#FF73A9D8" />
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="HyperlinkButton">
+                        <Grid Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="UnderlineTextBlock" Storyboard.TargetProperty="Visibility" Duration="0">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="UnderlineTextBlock" Storyboard.TargetProperty="Visibility" Duration="0">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Opacity" Duration="0" To="1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <TextBlock
+                                  x:Name="UnderlineTextBlock"
+                                  Text="{TemplateBinding Content}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Margin="{TemplateBinding Padding}"
+                                  Visibility="Collapsed"/>
+                            <TextBlock Canvas.ZIndex="1"
+                                  x:Name="DisabledOverlay"
+                                  Text="{TemplateBinding Content}"
+                                  Foreground="#FFAAAAAA"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Margin="{TemplateBinding Padding}"
+                                  Visibility="Collapsed"/>
+                            <ContentPresenter 
+                                  x:Name="contentPresenter"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  Margin="{TemplateBinding Padding}"/>
+                            <Rectangle x:Name="FocusVisualElement" Stroke="#FF6DBDD1" StrokeThickness="1" Opacity="0" IsHitTestVisible="false" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <SolidColorBrush x:Key="AppBarItemPointerOverBackgroundThemeBrush" Color="Yellow" />
+        <SolidColorBrush x:Key="AppBarItemForegroundCustomThemeBrush" Color="MediumPurple" />
+
+        <Style TargetType="AppBarButton" x:Key="AppBarButtonCustom">
+            <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AppBarButton">
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <VisualState x:Name="FullSize"/>
+                                    <VisualState x:Name="Compact">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemPointerOverForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemForegroundCustomThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemForegroundCustomThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemPressedForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="FocusVisualWhite" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
+                                            <DoubleAnimation Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <StackPanel>
+                                <Grid>
+                                    <Ellipse x:Name="BackgroundEllipse" UseLayoutRounding="False" Width="40" Height="40" Fill="White"/>
+                                    <Ellipse x:Name="OutlineEllipse" UseLayoutRounding="False" Width="40" Height="40" Stroke="White" StrokeThickness="2" />
+                                    <ContentPresenter x:Name="Content" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AccessibilityView="Raw"/>
+                                </Grid>
+                            </StackPanel>
+                            <Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeEndLineCap="Square" StrokeDashArray="1,1" Opacity="0" StrokeDashOffset="1.5"/>
+                            <Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeEndLineCap="Square" StrokeDashArray="1,1" Opacity="0" StrokeDashOffset="0.5"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="BookDataTemplate">
+            <Grid Height="250" Width="460" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="13*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Image}" Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <StackPanel Grid.Column="1" Margin="20,10,20,20">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="0,0,0,10"/>
+                            <Setter Property="FontSize" Value="10"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="IsTextSelectionEnabled" Value="False"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock Text="{Binding Title}" Tag="{Binding Url}" FontSize="20"/>
+                    <TextBlock Text="{Binding Author}"/>
+                    <TextBlock Text="{Binding Price, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:C}'}" FontSize="22"/>
+                    <TextBlock Text="{Binding Publisher}"/>
+                    <TextBlock Text="{Binding SalesDate}"/>
+                </StackPanel>
+                <Image Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Source="{Binding BookStoreImage}" Height="32" Width="64" Margin="0,0,10,0" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HeaderDataTemplate">
+            <Grid>
+                <TextBlock Text="{Binding}" Foreground="Yellow" FontFamily="Segoe UI Symbol" FontSize="24" Margin="0 -2 0 -10"/>
+            </Grid>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Grid Background="#FFE4E4E4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.ColumnSpan="4" Fill="#FF628CE6"/>
+        <TextBlock TextWrapping="Wrap" Text="B" FontSize="240" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontStyle="Italic" FontWeight="ExtraBlack" Grid.Row="1" Grid.ColumnSpan="4"/>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <AppBarButton x:Name="AppBarButton_Back" Style="{StaticResource AppBarButtonCustom}" Margin="5,0" IsEnabled="False" Click="AppBarButton_Back_Click" RightTapped="AppBarButton_Back_RightTapped">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE112;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="AppBarButton_Forward" Style="{StaticResource AppBarButtonCustom}" Margin="5,0" IsEnabled="False" Click="AppBarButton_Forward_Click" RightTapped="AppBarButton_Forward_RightTapped">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE111;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </StackPanel>
+        <SearchBox Grid.Column="2" x:Name="SearchBox" PlaceholderText="検索条件を入力してください" Margin="10,0" QuerySubmitted="SearchBox_QuerySubmitted" FontSize="22" SuggestionsRequested="SearchBox_SuggestionsRequested" VerticalAlignment="Center"/>
+        <AppBarButton Grid.Column="3" Icon="Setting" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource AppBarButtonCustom}" Click="SettingsButton_Click" />
+        <GridView x:Name="GridView_book" Grid.Row="1" ItemsSource="{Binding}" ItemTemplate="{StaticResource BookDataTemplate}" Margin="0,20" Grid.Column="1" Grid.ColumnSpan="2" SelectionChanged="GridView_SelectionChanged">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="0,0,20,20"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+        </GridView>
+        <ProgressRing x:Name="ProgressRing" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" MinHeight="100" MinWidth="100" Foreground="#FF628CE6"/>
+        <Rectangle Fill="#FF628CE6" Grid.ColumnSpan="4" Grid.Row="2"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="ToggleSwitch">
+                    <Setter Property="Margin" Value="0,0,20,0"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </StackPanel.Resources>
+            <ToggleSwitch x:Name="ToggleSwitch_Sort" Header="&#xE174;" OffContent="類似度" OnContent="価格" IsOn="True" HeaderTemplate="{StaticResource HeaderDataTemplate}" Toggled="ToggleSwitch_Sort_Toggled"/>
+            <ToggleSwitch x:Name="ToggleSwitch_Display" Header="&#xE2ae;" OffContent="書店毎" OnContent="全書店" IsOn="True" HeaderTemplate="{StaticResource HeaderDataTemplate}"/>
+        </StackPanel>
+    </Grid>
+</Page>
